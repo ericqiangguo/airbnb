@@ -1,12 +1,11 @@
 var form_login = document.getElementById('login-form');
 
 
-form_login.onsubmit=function(e)
-{
+form_login.onsubmit = function (e) {
     e.preventDefault();
 
-    var email=form_login.email.value;
-    var pass=form_login.pass.value;
+    var email = form_login.email.value;
+    var pass = form_login.pass.value;
 
     console.log(email);
     console.log(pass);
@@ -16,15 +15,13 @@ form_login.onsubmit=function(e)
         url: "",
         data:
             {
-                username:email,
-                password:pass
+                username: email,
+                password: pass
             },
-        success: function(msg)
-        {
+        success: function (msg) {
             console.log(msg);
         },
-        fail: function()
-        {
+        fail: function () {
             console.log("login failed");
         }
     });
