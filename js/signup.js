@@ -1,7 +1,6 @@
 var form_login = document.getElementById("login-form");
 form_login.onsubmit = function(e) {
   e.preventDefault();
-  console.log("hell world");
   var email = form_login.email.value;
   var pass = form_login.pass.value;
   var hash = CryptoJS.SHA1(pass);
