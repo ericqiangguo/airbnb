@@ -15,7 +15,6 @@ form_login.onsubmit = function(e) {
   var check = form_login.chkRem.value;
   var hash = CryptoJS.SHA1(pass);
   var passhash = CryptoJS.enc.Hex.stringify(hash);
-  console.log(passhash);
   $.ajax({
     type: "POST",
     url: "https://soy-sauce.herokuapp.com/user/login",
