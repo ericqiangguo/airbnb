@@ -1,33 +1,34 @@
-var form_login = document.getElementById('login-form');
+var form_login = document.getElementById("login-form");
+form_login.onsubmit = function(e) {
+  e.preventDefault();
+  $("#checkbox").on("change", function() {
+    if ($(this).is(":checked")) {
+      $(this).attr("value", "true");
+    } else {
+      $(this).attr("value", "false");
+    }
 
-
-form_login.onsubmit=function(e)
-{
-    e.preventDefault();
-
-    var email=form_login.email.value;
-    var pass=form_login.pass.value;
-
-    console.log(email);
-    console.log(pass);
-
-    $.ajax({
-        type: "POST",
-        url: "",
-        data:
-            {
-                username:email,
-                password:pass
-            },
-        success: function(msg)
-        {
-            console.log(msg);
-        },
-        fail: function()
-        {
-            console.log("login failed");
-        }
-    });
-
-
-}
+    $("#checkbox-value").text($("#checkbox").val());
+  });
+  var email = form_login.email.value;
+  var pass = form_login.pass.value;
+  var check = form_login.chkRem.value;
+  var hash = CryptoJS.SHA1(pass);
+  var passhash = CryptoJS.enc.Hex.stringify(hash);
+  console.log(passhash);
+  $.ajax({
+    type: "POST",
+    url: "https://soy-sauce.herokuapp.com/user/login",
+    data: {
+      email: email,
+      password: passhash,
+      remember_me: check
+    },
+    success: function(msg) {
+      console.log(msg);
+    },
+    fail: function() {
+      console.log("login failed");
+    }
+  });
+};
