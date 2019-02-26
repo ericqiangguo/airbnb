@@ -1,3 +1,5 @@
+$(function(){
+
 $.ajaxSetup({
   xhrFields: {
     withCredentials: true
@@ -37,3 +39,5 @@ form_login.onsubmit = function(e) {
     }
   });
 };
+
+});
