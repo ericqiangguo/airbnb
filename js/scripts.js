@@ -1,3 +1,11 @@
+$(function(){
+
+$.ajaxSetup({
+  xhrFields: {
+    withCredentials: true
+  }
+});
+
 var form_login = document.getElementById("login-form");
 form_login.onsubmit = function(e) {
   e.preventDefault();
@@ -31,3 +39,5 @@ form_login.onsubmit = function(e) {
     }
   });
 };
+
+});
