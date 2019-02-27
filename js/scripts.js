@@ -1,11 +1,5 @@
 $(function(){
 
-$.ajaxSetup({
-  xhrFields: {
-    withCredentials: true
-  }
-});
-
 var form_login = document.getElementById("login-form");
 form_login.onsubmit = function(e) {
   e.preventDefault();
@@ -25,7 +19,7 @@ form_login.onsubmit = function(e) {
   var passhash = CryptoJS.enc.Hex.stringify(hash);
   $.ajax({
     type: "POST",
-    url: "https://soy-sauce.herokuapp.com/user/login",
+    url: "/api/user/login",
     data: {
       email: email,
       password: passhash,
