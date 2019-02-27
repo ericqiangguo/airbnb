@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 40%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>
+            Add a room
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <form role="form" id="add-form" method="post">
+            <div class="form-group">
+              <label for="name">
+                House name
+              </label>
+              <input type="text" class="form-control" id="name" name="name" />
+            </div>
+            <div class="form-group">
+              <label for="street">
+                Street
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="street"
+                name="street"
+              />
+            </div>
+            <div class="form-group">
+              <label for="City">
+                City
+              </label>
+              <input type="text" class="form-control" id="City" name="City" />
+              <span id="checktext2" class="warning"></span>
+            </div>
+            <div class="form-group">
+              <label for="provinces">
+                Province
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="Provinces"
+                name="Provinces"
+                list="Provinces_list"
+                onchange="remap()"
+              />
+              <datalist id="Provinces_list">
+                <option>NL</option>
+                <option>PE</option>
+                <option>NS</option>
+                <option>NB</option>
+                <option>QC</option>
+                <option>ON</option>
+                <option>MB</option>
+                <option>SK</option>
+                <option>AB</option>
+                <option>BC</option>
+                <option>YT</option>
+                <option>NT</option>
+                <option>NU</option>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label for="code">
+                Postal code
+              </label>
+              <input type="text" class="form-control" id="code" name="code" />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Create your account
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      var map;
+      var lat;
+      var lng;
+      var placeid;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: -34.397, lng: 150.644 },
+          zoom: 8
+        });
+      }
+      function remap() {
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+        function geocodeAddress(geocoder, resultsMap) {
+          var street = document.getElementById("street").value;
+          var city = document.getElementById("City").value;
+          var provinces = document.getElementById("Provinces").value;
+          var address = street + ", " + city + ", " + provinces;
+
+          geocoder.geocode({ address: address }, function(results, status) {
+            if (status === "OK") {
+              resultsMap.setCenter(results[0].geometry.location);
+              map.setZoom(20);
+              var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+              });
+              lat = results[0].geometry.location.lat();
+              lng = results[0].geometry.location.lng();
+              placeid = results[0].place_id;
+            } else {
+              alert(
+                "Geocode was not successful for the following reason: " + status
+              );
+            }
+          });
+        }
+      }
+      var form_login = document.getElementById("add-form");
+      form_login.onsubmit = function(e) {
+        e.preventDefault();
+        var housename = document.getElementById("name").value;
+        var streetname = document.getElementById("street").value;
+        var cityname = document.getElementById("City").value;
+        var provincename = document.getElementById("Provinces").value;
+        var postalcode = document.getElementById("code").value;
+        $.ajax({
+          type: "POST",
+          url: "/api/house/create",
+          xhrFields: {
+            withCredentials: true 
+          },
+          crossDomain: true,
+          data: {
+            house_name: housename,
+            place_id: placeid,
+            house_address: streetname,
+            house_city: cityname,
+            house_province: provincename,
+            house_postcode: postalcode,
+            longitude: lng,
+            latitude: lat
+          },
+          success: function(msg) {
+            console.log(msg);
+          },
+          fail: function() {
+            console.log("add failed");
+          }
+        });
+      };
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS9dAgz0_KQOl5u_GuJzAlZ_LZiR9DpLo&callback=initMap"
+      async
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
