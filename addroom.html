@@ -149,7 +149,7 @@
         var postalcode = document.getElementById("code").value;
         $.ajax({
           type: "POST",
-          url: "http://192.168.1.104:8000/house/create",
+          url: "/api/house/create",
           xhrFields: {
             withCredentials: true 
           },
