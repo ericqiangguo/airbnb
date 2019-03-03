@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Home page</title>
+
+    <meta
+      name="description"
+      content="Source code generated using layoutit.com"
+    />
+    <meta name="author" content="LayoutIt!" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+
+    <style>
+      #sentence {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      #map {
+        height: 40%;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body onload="explore()">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>
+            Home Page
+          </h3>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Add Room</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sign up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sign Out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span id="sentence">Search Room:</span>
+          <form role="form" id="search-form">
+            <div class="form-group">
+              <label for="exampleInputEmail1">
+                Address
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                placeholder="Waterloo"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Number of bed
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="beds"
+                placeholder="1"
+                onchange="remap()"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check in
+              </label>
+              <input type="date" class="form-control" id="date1" />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check out
+              </label>
+              <input type="date" class="form-control" id="date2" />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Search
+            </button>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div class="show" id="show">
+            <span id="sentence">Explore new airbnb:</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map"></div>
+    <script>
+      var map;
+      var lat;
+      var lng;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: -34.397, lng: 150.644 },
+          zoom: 8
+        });
+      }
+      function remap() {
+        var addr = document.getElementById("address").value;
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+        function geocodeAddress(geocoder, resultsMap) {
+          geocoder.geocode({ address: addr }, function(results, status) {
+            if (status === "OK") {
+              resultsMap.setCenter(results[0].geometry.location);
+              map.setZoom(20);
+              // var marker = new google.maps.Marker({
+              //   map: resultsMap,
+              //   position: results[0].geometry.location
+              // });
+              lat = results[0].geometry.location.lat();
+              lng = results[0].geometry.location.lng();
+            } else {
+              alert(
+                "Geocode was not successful for the following reason: " + status
+              );
+            }
+          });
+        }
+      }
+      var search_form = document.getElementById("search-form");
+
+      search_form.onsubmit = function(e) {
+        e.preventDefault();
+        document.getElementById("show").innerHTML = "";
+        var title1 = document.createElement("span");
+        title1.id = "sentence";
+        title1.innerHTML = "Search result:";
+        $(".show").append(title1);
+        var addr = document.getElementById("address").value;
+        var begindate = document.getElementById("date1").value;
+        var enddate = document.getElementById("date2").value;
+        var bed_num = parseInt(document.getElementById("beds").value);
+        var distance = 20000000;
+
+        $.ajax({
+          type: "GET",
+          url: "/api/house/search",
+          data: {
+            longitude: lng,
+            latitude: lat,
+            date_begin: begindate,
+            date_end: enddate,
+            number_of_beds: bed_num,
+            max_distance: distance
+          },
+          success: function(msg) {
+            var geocoder = new google.maps.Geocoder();
+            var search_result = msg.house_list;
+            $.each(search_result, function(index, n) {
+              var rowTr = document.createElement("tr");
+              var information =
+                "<td>" +
+                search_result[index].name +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                search_result[index].address +
+                "</td>" +
+                "<td>" +
+                search_result[index].city +
+                "</td>" +
+                "<td>" +
+                search_result[index].province +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                search_result[index].date_begin +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                search_result[index].date_end +
+                "&nbsp&nbsp&nbsp" +
+                "</td>";
+              rowTr.innerHTML = information;
+              $(".show").append(rowTr);
+              var geocoder = new google.maps.Geocoder();
+              geocodeAddress(geocoder, map);
+              function geocodeAddress(geocoder, resultsMap) {
+                geocoder.geocode(
+                  { placeId: search_result[index].place_id },
+                  function(results, status) {
+                    if (status === "OK") {
+                      var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                      });
+                    } else {
+                      alert(
+                        "Geocode was not successful for the following reason: " +
+                          status
+                      );
+                    }
+                  }
+                );
+              }
+            });
+          },
+          fail: function() {
+            console.log("search failed");
+          }
+        });
+      };
+
+      function explore() {
+        $.ajax({
+          type: "GET",
+          url: "/api/house/search",
+          success: function(data) {
+            var room_information = data.house_list;
+            $.each(room_information, function(index, n) {
+              var rowTr = document.createElement("tr");
+              var information =
+                "<td>" +
+                room_information[index].name +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                room_information[index].address +
+                "</td>" +
+                "<td>" +
+                room_information[index].city +
+                "</td>" +
+                "<td>" +
+                room_information[index].province +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                room_information[index].date_begin +
+                "&nbsp&nbsp&nbsp" +
+                "</td>" +
+                "<td>" +
+                room_information[index].date_end +
+                "&nbsp&nbsp&nbsp" +
+                "</td>";
+              rowTr.innerHTML = information;
+              $(".show").append(rowTr);
+            });
+          }
+        });
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEr7VaXJrWbi79GbHar7CPAS1LyYDAyew&callback=initMap"
+      async
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

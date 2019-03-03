@@ -93,6 +93,29 @@
               </label>
               <input type="text" class="form-control" id="code" name="code" />
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Number of bed
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="beds"
+                placeholder="1"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check in
+              </label>
+              <input type="date" class="form-control" id="date1" />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check out
+              </label>
+              <input type="date" class="form-control" id="date2" />
+            </div>
             <button type="submit" class="btn btn-primary">
               Create your account
             </button>
@@ -119,7 +142,6 @@
           var city = document.getElementById("City").value;
           var provinces = document.getElementById("Provinces").value;
           var address = street + ", " + city + ", " + provinces;
-
           geocoder.geocode({ address: address }, function(results, status) {
             if (status === "OK") {
               resultsMap.setCenter(results[0].geometry.location);
@@ -147,6 +169,9 @@
         var cityname = document.getElementById("City").value;
         var provincename = document.getElementById("Provinces").value;
         var postalcode = document.getElementById("code").value;
+        var bed_num = document.getElementById("beds").value;
+        var startdate = document.getElementById("date1").value;
+        var enddate = document.getElementById("date2").value;
         $.ajax({
           type: "POST",
           url: "/api/house/create",
@@ -162,7 +187,10 @@
             house_province: provincename,
             house_postcode: postalcode,
             longitude: lng,
-            latitude: lat
+            latitude: lat,
+            number_of_beds: bed_num,
+            date_begin: startdate,
+            date_end: enddate
           },
           success: function(msg) {
             console.log(msg);
@@ -174,7 +202,7 @@
       };
     </script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS9dAgz0_KQOl5u_GuJzAlZ_LZiR9DpLo&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEr7VaXJrWbi79GbHar7CPAS1LyYDAyew&callback=initMap"
       async
       defer
     ></script>
