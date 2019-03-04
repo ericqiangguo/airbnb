@@ -108,13 +108,13 @@
               <label for="exampleInputPassword1">
                 Check in
               </label>
-              <input type="date" class="form-control" id="date1" />
+              <input type="date" class="form-control" id="date_start" />
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">
                 Check out
               </label>
-              <input type="date" class="form-control" id="date2" />
+              <input type="date" class="form-control" id="date_end" />
             </div>
             <button type="submit" class="btn btn-primary">
               Create your account
@@ -170,8 +170,8 @@
         var provincename = document.getElementById("Provinces").value;
         var postalcode = document.getElementById("code").value;
         var bed_num = document.getElementById("beds").value;
-        var startdate = document.getElementById("date1").value;
-        var enddate = document.getElementById("date2").value;
+        var startdate = document.getElementById("date_start").value;
+        var enddate = document.getElementById("date_end").value;
         $.ajax({
           type: "POST",
           url: "/api/house/create",
