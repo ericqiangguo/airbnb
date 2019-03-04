@@ -14,6 +14,7 @@ form_login.onsubmit = function(e) {
     },
     success: function(msg) {
       console.log(msg);
+      window.location.href='../index.html';
     },
     fail: function() {
       console.log("login failed");

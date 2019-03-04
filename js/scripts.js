@@ -27,7 +27,7 @@ form_login.onsubmit = function(e) {
     },
     success: function(msg) {
       console.log(msg);
-      window.location.href='../addroom.html';
+      window.location.href='../homepage.html';
     },
     fail: function() {
       console.log("login failed");

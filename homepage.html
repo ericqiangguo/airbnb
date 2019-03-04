@@ -41,13 +41,13 @@
           </h3>
           <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Add Room</a>
+              <a class="nav-link active" href="addroom.html">Add Room</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Sign up</a>
+              <a class="nav-link" href="signup.html">Sign up</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Sign Out</a>
+              <a class="nav-link" href="index.html">Sign Out</a>
             </li>
           </ul>
         </div>
@@ -75,7 +75,6 @@
                 type="text"
                 class="form-control"
                 id="beds"
-                placeholder="1"
                 onchange="remap()"
               />
             </div>
@@ -83,13 +82,13 @@
               <label for="exampleInputPassword1">
                 Check in
               </label>
-              <input type="date" class="form-control" id="date1" />
+              <input type="date" class="form-control" id="date_start" />
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">
                 Check out
               </label>
-              <input type="date" class="form-control" id="date2" />
+              <input type="date" class="form-control" id="date_end" />
             </div>
             <button type="submit" class="btn btn-primary">
               Search
@@ -147,8 +146,8 @@
         title1.innerHTML = "Search result:";
         $(".show").append(title1);
         var addr = document.getElementById("address").value;
-        var begindate = document.getElementById("date1").value;
-        var enddate = document.getElementById("date2").value;
+        var begindate = document.getElementById("date_start").value;
+        var enddate = document.getElementById("date_end").value;
         var bed_num = parseInt(document.getElementById("beds").value);
         var distance = 20000000;
 

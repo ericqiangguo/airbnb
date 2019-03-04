@@ -56,7 +56,7 @@
               <label for="City">
                 City
               </label>
-              <input type="text" class="form-control" id="City" name="City" />
+              <input type="text" class="form-control" id="city" name="city" />
               <span id="checktext2" class="warning"></span>
             </div>
             <div class="form-group">
@@ -139,7 +139,7 @@
         geocodeAddress(geocoder, map);
         function geocodeAddress(geocoder, resultsMap) {
           var street = document.getElementById("street").value;
-          var city = document.getElementById("City").value;
+          var city = document.getElementById("city").value;
           var provinces = document.getElementById("Provinces").value;
           var address = street + ", " + city + ", " + provinces;
           geocoder.geocode({ address: address }, function(results, status) {
@@ -166,7 +166,7 @@
         e.preventDefault();
         var housename = document.getElementById("name").value;
         var streetname = document.getElementById("street").value;
-        var cityname = document.getElementById("City").value;
+        var cityname = document.getElementById("city").value;
         var provincename = document.getElementById("Provinces").value;
         var postalcode = document.getElementById("code").value;
         var bed_num = document.getElementById("beds").value;
