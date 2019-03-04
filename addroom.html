@@ -56,7 +56,7 @@
               <label for="City">
                 City
               </label>
-              <input type="text" class="form-control" id="City" name="City" />
+              <input type="text" class="form-control" id="city" name="city" />
               <span id="checktext2" class="warning"></span>
             </div>
             <div class="form-group">
@@ -93,6 +93,29 @@
               </label>
               <input type="text" class="form-control" id="code" name="code" />
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Number of bed
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="beds"
+                placeholder="1"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check in
+              </label>
+              <input type="date" class="form-control" id="date_start" />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Check out
+              </label>
+              <input type="date" class="form-control" id="date_end" />
+            </div>
             <button type="submit" class="btn btn-primary">
               Create your account
             </button>
@@ -116,10 +139,9 @@
         geocodeAddress(geocoder, map);
         function geocodeAddress(geocoder, resultsMap) {
           var street = document.getElementById("street").value;
-          var city = document.getElementById("City").value;
+          var city = document.getElementById("city").value;
           var provinces = document.getElementById("Provinces").value;
           var address = street + ", " + city + ", " + provinces;
-
           geocoder.geocode({ address: address }, function(results, status) {
             if (status === "OK") {
               resultsMap.setCenter(results[0].geometry.location);
@@ -144,9 +166,12 @@
         e.preventDefault();
         var housename = document.getElementById("name").value;
         var streetname = document.getElementById("street").value;
-        var cityname = document.getElementById("City").value;
+        var cityname = document.getElementById("city").value;
         var provincename = document.getElementById("Provinces").value;
         var postalcode = document.getElementById("code").value;
+        var bed_num = document.getElementById("beds").value;
+        var startdate = document.getElementById("date_start").value;
+        var enddate = document.getElementById("date_end").value;
         $.ajax({
           type: "POST",
           url: "/api/house/create",
@@ -162,7 +187,10 @@
             house_province: provincename,
             house_postcode: postalcode,
             longitude: lng,
-            latitude: lat
+            latitude: lat,
+            number_of_beds: bed_num,
+            date_begin: startdate,
+            date_end: enddate
           },
           success: function(msg) {
             console.log(msg);
@@ -174,7 +202,7 @@
       };
     </script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS9dAgz0_KQOl5u_GuJzAlZ_LZiR9DpLo&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEr7VaXJrWbi79GbHar7CPAS1LyYDAyew&callback=initMap"
       async
       defer
     ></script>
