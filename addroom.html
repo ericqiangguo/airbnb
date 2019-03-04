@@ -271,9 +271,11 @@
           },
           success: function(msg) {
             console.log(msg);
+            window.location.href = "/homepage.html";
           },
           fail: function() {
             console.log("add failed");
+            alert("add failed, see dev tool");
           }
         });
       };
