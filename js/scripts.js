@@ -13,7 +13,15 @@ form_login.onsubmit = function(e) {
     $("#checkbox-value").text($("#checkbox").val());
   });
   var email = form_login.email.value;
+  if(email=='')
+  {
+    document.getElementById("reminder_username").innerHTML="please enter your email";
+  }
   var pass = form_login.pass.value;
+  if(pass=='')
+  {
+    document.getElementById("reminder_password").innerHTML="please enter your password";
+  }
   var check = form_login.chkRem.value;
   var hash = CryptoJS.SHA1(pass);
   var passhash = CryptoJS.enc.Hex.stringify(hash);

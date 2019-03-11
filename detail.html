@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Bootstrap 4, from LayoutIt!</title>
+
+    <meta
+      name="description"
+      content="Source code generated using layoutit.com"
+    />
+    <meta name="author" content="LayoutIt!" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <img
+            alt="Bootstrap Image Preview"
+            src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"
+          />
+        </div>
+        <div class="col-md-6" id="description_info"></div>
+      </div>
+      <div class="row">
+        <div class="show_information" id="show_information"></div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+    <script>
+      window.onload = function() {
+        var result;
+        var home_id = window.location.search;
+        if (home_id.indexOf("?") != -1) {
+          result = home_id.substr(home_id.indexOf("=") + 1);
+        }
+        $.ajax({
+          type: "GET",
+          url: "/api/house/info",
+          data: {
+            house_id: result
+          },
+          success: function(msg) {
+            var home_information = msg.info;
+            var rowTr = document.createElement("tr");
+            var information =
+              "<br>" +
+              "House Name:" +
+              home_information.name +
+              "</br>" +
+              "Address:" +
+              home_information.address +
+              "&nbsp&nbsp&nbsp" +
+              home_information.city +
+              "&nbsp&nbsp&nbsp" +
+              home_information.province +
+              "<br>" +
+              "Postal Code:" +
+              home_information.postcode +
+              "</br>" +
+              "The Number of Beds:" +
+              home_information.number_of_beds +
+              "<br>" +
+              "date begin:" +
+              home_information.date_begin +
+              "&nbsp&nbsp&nbsp&nbsp&nbsp" +
+              "date end:" +
+              home_information.date_end +
+              "</br>" +
+              "create time:" +
+              home_information.create_at;
+            rowTr.innerHTML = information;
+            $("#show_information").append(rowTr);
+
+            var row_des = document.createElement("tr");
+            var description_info = home_information.description;
+            row_des.innerHTML = description_info;
+            $("#description_info").append(row_des);
+          },
+          fail: function() {
+            console.log("load info fail");
+          }
+        });
+      };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

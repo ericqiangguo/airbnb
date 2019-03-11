@@ -190,7 +190,9 @@
                 search_result[index].date_end +
                 "&nbsp&nbsp&nbsp" +
                 "</td>";
-              rowTr.innerHTML = information;
+              var home_id_search = room_information[index].house_id;
+              var detail_search = "<a href=\"detail.html?home_id="+home_id_search+"\">details</a>";
+              rowTr.innerHTML = information+detail_search;
               $(".show").append(rowTr);
               var geocoder = new google.maps.Geocoder();
               geocodeAddress(geocoder, map);
@@ -251,7 +253,9 @@
                 room_information[index].date_end +
                 "&nbsp&nbsp&nbsp" +
                 "</td>";
-              rowTr.innerHTML = information;
+              var home_id = room_information[index].house_id;
+              var detail = "<a href=\"detail.html?home_id="+home_id+"\">details</a>";
+              rowTr.innerHTML = information+detail;
               $(".show").append(rowTr);
             });
           }
