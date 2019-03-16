@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>Add a Room</title>
     <meta name="viewport" content="initial-scale=1.0" />
     <meta charset="utf-8" />
     <style>
@@ -9,7 +9,7 @@
        * element that contains the map. */
       #map {
         height: 40%;
-        margin-top:-18px;
+        margin-top:-15.5px;
       }
       /* Optional: Makes the sample page fill the window. */
       html,
@@ -18,8 +18,24 @@
         margin: 0;
         padding: 0;
       }
+      /*set the background*/
+      .bg {
+            background: url('./img/addroom_img.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover; 
+            /* vertical-align: middle; */
+            /* background-clip:border-box; */
+            height:auto;
+            line-height: auto;
+            background-color:transparent;
 
-       /*set the background*/
+      }
+      .inner{
+        height:100%;
+        background: rgba(138, 134, 134, 0.575);
+      }
+
       .title{
         padding:100px;
         margin-top:-30px;
@@ -27,180 +43,239 @@
       .center{text-align:center}
       .textBg{
         background:rgb(209, 206, 206);
-        height:500px;
-        width:500px;
-        text-align: center;
-        margin-left: 375px;
-        margin-top:-50px;
-        margin-bottom: 100px;
+        height:100%;
+        width:40%;
+        /* text-align: center; */
+        margin-left: 30%;
+        margin-right:20%;
+        margin-top:-5%;
+        margin-bottom:100px;
         font-size:100%;
         color:rgb(17, 17, 17);
         border-radius:25px;
         padding:0.5cm;
       }
       /*set the nav bar*/
-      ul {
-       list-style-type: none;
-       margin: 0;
-       padding: 0;
-       overflow: hidden;
-       background-color:#e2e7ec;
-       height:60px;
-      }
+      .tag{
+        width: auto;
+        height: 180%;
+        /* object-fit:cover; */
 
-      li {
-       float: left;
-      }
+      } 
+      
+   
+  
+  
+     
 
-      li a {
-       display: block;
-       color: rgb(17, 16, 16);
-       text-align: center;
-       padding: 15px 20px;
-       text-decoration: none;
-      }
+/* unpoad picture*/
+.file-box {
+    position: relative;
+    display: inline-block;
+    margin-top:0;
+    width:100%;
+}
+.file-box img {
+    width: 100%;
+    height: 150%;
+    border-radius: 5%;
+    position: middle;
+    /* display: inline-block; */
+    /* border: none; */
+}
+.file-box .txt,.file-box .file {
+    width: 70px;
+    height: 36px;
+    position: absolute;
+    top: -20px;
+    left: 100px;
+    text-align: center;
+}
 
-      li a:hover {
-       background-color: #e2e7ec;
-      }
+.comments {
+	width: 100%; /*自动适应父布局宽度*/
+	overflow: auto;
+	word-break: break-all;
+}
 
-      a.leftPand{
-       margin-left:-80px;
-      }
+.marginCreat{
+  margin-top:5%;
+}
+
+
+
 
     </style>
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet" /> -->
     <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
 
 
 
   <body>
-      <ul>
-          <li><img  src="/img/logo.png" width="40%" height="40%"><li>
-          <li><a class="" href="/">Home</a></li>
-          <li><a href="/signup.html">Sign Up</a></li>
-          <li><a href="/index.html">Sign In</a></li>
-          <li><a href="/">Sign Out</a></li>
-          <li><a href="/">About</a></li>
-      </ul>
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation"> 
+          <div class="container-fluid"> 
+            <div class="navbar-header">
+              <div class="navbar-brand">
+                <img  src="/img/logo.png" class="tag" alt="" >
+              </div>    
+            </div> 
+            <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="/homepage.html">Home</a></li>
+                <li><a href="/index.html">Sign In</a></li>
+                <li><a href="/signup.html">Sign Up</a></li>
+                <li class="active"><a href="/">Add Room</a></li>
+                <li><a href="">About</a></li>
+                </ul> 
+            </div> 
+        </nav>
 
 
     <div id="map"></div>
-    <div class="container-fluid center">
+    <div class="bg">
+      <div class="inner">
 
-      <div class="title">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>
-            Add a room
-          </h3>
-        </div>
-      </div>
-      </div>
+        <div class="container-fluid center">
+          <div class="title">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>
+                  Add a room
+                </h3>
+              </div>
+            </div>
+          </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="textBg">
-          <form role="form" id="add-form" method="post">
-            <div class="form-group">
-              <label for="name">
-                House name
-              </label>
-              <div align="center">
-              <input type="text" class="form-control" id="name" name="name" />
-              </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="textBg">
+                <form role="form" id="add-form" method="post">
+                  <div class="form-group">
+                    <label for="name">
+                      House name
+                    </label>
+                    <div align="center">
+                      <input type="text" class="form-control" id="name" name="name" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="street">
+                      Street
+                    </label>
+                    <div align="center">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="street"
+                        name="street"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group" align="center">
+                    <label for="City">
+                      City
+                    </label>
+                    <input type="text" class="form-control" id="city" name="city" />
+                    <span id="checktext2" class="warning"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="provinces">
+                      Province
+                    </label>
+                    <div align="center">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="Provinces"
+                      name="Provinces"
+                      list="Provinces_list"
+                      onchange="remap()"
+                    />
+                    </div>
+                    <datalist id="Provinces_list">
+                      <option>NL</option>
+                      <option>PE</option>
+                      <option>NS</option>
+                      <option>NB</option>
+                      <option>QC</option>
+                      <option>ON</option>
+                      <option>MB</option>
+                      <option>SK</option>
+                      <option>AB</option>
+                      <option>BC</option>
+                      <option>YT</option>
+                      <option>NT</option>
+                      <option>NU</option>
+                    </datalist>
+                   </div>
+                  <div class="form-group">
+                    <label for="code">
+                      Postal code
+                    </label>
+                    <div align="center">
+                    <input type="text" class="form-control" id="code" name="code" />
+                    </div>
+                  </div>
+                  <div class="form-group" align="center">
+                    <label for="exampleInputPassword1">
+                      Number of bed
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="beds"
+                      placeholder="1"
+                    />
+                  </div>
+                  <div class="form-group" align="center">
+                    <label for="exampleInputPassword1">
+                      Check in
+                    </label>
+                    <input type="date" class="form-control" id="date_start" />
+                  </div>
+                  <div class="form-group" align="center">
+                    <label for="exampleInputPassword1">
+                      Check out
+                    </label>
+                    <input type="date" class="form-control" id="date_end" />
+                  </div>
+                  <div class="form-group" align="center"> 
+                    <label for="exampleInputEmail1">
+                      Description
+                    </label>
+                    <textarea 
+                      rows="5" 
+                      cols="50" 
+                      placeholder="Add some details about the room for your guest." 
+                      class="comments"
+                      autofocus>
+                    </textarea>
+                  </div>
+                  <div class="file-box">
+                      <img id="preview" />
+                      <!-- <input type="text" id="imgfield" class="txt" placeholder="预览"> -->
+                      <input type="file" name="file" id = "input_file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" onchange="imgPreview(this)" >  
+                  </div>
+                 
+                  
+             
+                  <div class="form-group marginCreat" align="center" > 
+                    <button type="submit" class="btn btn-primary" >
+                      Create your room
+                    </button>
+                  </div>
+                </form>
             </div>
-            <div class="form-group">
-              <label for="street">
-                Street
-              </label>
-              <div align="center">
-              <input
-                type="text"
-                class="form-control"
-                id="street"
-                name="street"
-              />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="City">
-                City
-              </label>
-              <input type="text" class="form-control" id="city" name="city" />
-              <span id="checktext2" class="warning"></span>
-            </div>
-            <div class="form-group">
-              <label for="provinces">
-                Province
-              </label>
-              <div align="center">
-              <input
-                type="text"
-                class="form-control"
-                id="Provinces"
-                name="Provinces"
-                list="Provinces_list"
-                onchange="remap()"
-              />
-              </div>
-              <datalist id="Provinces_list">
-                <option>NL</option>
-                <option>PE</option>
-                <option>NS</option>
-                <option>NB</option>
-                <option>QC</option>
-                <option>ON</option>
-                <option>MB</option>
-                <option>SK</option>
-                <option>AB</option>
-                <option>BC</option>
-                <option>YT</option>
-                <option>NT</option>
-                <option>NU</option>
-              </datalist>
-            </div>
-            <div class="form-group">
-              <label for="code">
-                Postal code
-              </label>
-              <div align="center">
-              <input type="text" class="form-control" id="code" name="code" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">
-                Number of bed
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                id="beds"
-                placeholder="1"
-              />
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">
-                Check in
-              </label>
-              <input type="date" class="form-control" id="date_start" />
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">
-                Check out
-              </label>
-              <input type="date" class="form-control" id="date_end" />
-            </div>
-            <button type="submit" class="btn btn-primary">
-              Create your room
-            </button>
-          </form>
           </div>
         </div>
       </div>
     </div>
-    <script>
+    </div>
+      <script>
       var map;
       var lat;
       var lng;
@@ -238,6 +313,9 @@
           });
         }
       }
+
+
+
       var form_login = document.getElementById("add-form");
       form_login.onsubmit = function(e) {
         e.preventDefault();
@@ -279,6 +357,44 @@
           }
         });
       };
+
+
+
+/* js of upload img*/  
+      function imgPreview(fileDom) {
+    
+         if(window.FileReader) {
+           var reader = new FileReader();
+         } 
+         else {
+           alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+         }
+    
+         var file = fileDom.files[0];
+         var imageType = /^image\//;
+    
+         if(!imageType.test(file.type)) {
+           alert("请选择图片！");
+        return;
+         }
+    
+    reader.onload = function(e) {
+        
+        var img = document.getElementById("preview");
+    
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+
+
+
+
+
+
+
+
     </script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEr7VaXJrWbi79GbHar7CPAS1LyYDAyew&callback=initMap"
