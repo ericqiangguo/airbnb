@@ -33,7 +33,7 @@ def checkresult(x):
 
 __testUrl = 'http://ubuntu1604-006.student.cs.uwaterloo.ca:19487/'
 
-browser = Browser('chrome')
+browser = Browser('chrome',headless=True)
 browser.visit(__testUrl)
 
 output("test page:"+ browser.title)
