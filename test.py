@@ -2,19 +2,16 @@ import sys
 import re
 from splinter.browser import Browser
 
-CLOASE_AFTER_TEST =False
-
-def output(x):
-    print x
+CLOASE_AFTER_TEST = False
 
 def resultMsg(x):
-        assert x==True
+        assert x == True
         print 'pass'
 
 def testLogin(desc, username, password, result):
-    output(desc)
-    browser.fill('email',username)
-    browser.fill('pass',password)
+    print desc
+    browser.fill('email', username)
+    browser.fill('pass', password)
     browser.find_by_value('login').first.click()
     checkresult(result)
 
@@ -23,22 +20,14 @@ def checkresult(x):
 
 __testUrl = 'http://ubuntu1604-006.student.cs.uwaterloo.ca:19487/'
 
-browser = Browser('chrome',headless=True)
+browser = Browser('chrome', headless=True)
 browser.visit(__testUrl)
 
-output('test page:'+ browser.title)
+output('test page:' + browser.title)
 
-
-
-testLogin('no username','','','please enter your email')
-testLogin('no password','lyuboxin@gmail','','please enter your password')
-testLogin('unexist username','lyuboxin1@gmail','','username or password is wrong')
-
-
+testLogin('no username', '', '', 'please enter your email')
+testLogin('no password', 'lyuboxin@gmail', '', 'please enter your password')
+testLogin('unexist username', 'lyuboxin1@gmail', '', 'username or password is wrong')
 
 if CLOASE_AFTER_TEST:
     browser.quit()
-
-
-
-
