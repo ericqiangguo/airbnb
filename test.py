@@ -15,13 +15,9 @@ def output(x):
     print encoding(x)
 
 def resultMsg(x):
-    if x == True:
-        print 'PASS'
-        assert(x)
-    else:
-        print '[X] not pass'
-        assert(x)
-    print '---------------------'
+        assert x==True
+        print 'pass'
+    # print '---------------------'
 
 def testLogin(desc, username, password, result):
     output(desc)
@@ -41,14 +37,13 @@ browser.visit(__testUrl)
 output("test page:"+ browser.title)
 
 
-try:
-    testLogin("no username",'','','please enter your email')
-    testLogin('no password','lyuboxin@gmail','','please enter your password')
-    testLogin('unexist username','lyuboxin1@gmail','','your email is not exist')
-    testLogin('successful log in','lyuboxin@gmail','123456','success')
 
-except Exception,x:
-    print x
+testLogin("no username",'','','please enter your email')
+testLogin('no password','lyuboxin@gmail','','please enter your password')
+testLogin('unexist username','lyuboxin1@gmail','','your email is not exist')
+testLogin('successful log in','lyuboxin@gmail','123456','success')
+
+
 
 if CLOASE_AFTER_TEST:
     browser.quit()
