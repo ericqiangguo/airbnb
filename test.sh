@@ -4,4 +4,6 @@ echo $PATH
 
 ls driver
 
+set -e
+
 python test.py
