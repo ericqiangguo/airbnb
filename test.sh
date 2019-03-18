@@ -1,7 +1,7 @@
-export PATH=/driver:$PATH
+export PATH=`pwd`/driver:$PATH
 
 echo $PATH
 
-ls /driver
+ls driver
 
 python test.py
