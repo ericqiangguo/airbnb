@@ -40,8 +40,7 @@ output("test page:"+ browser.title)
 
 testLogin("no username",'','','please enter your email')
 testLogin('no password','lyuboxin@gmail','','please enter your password')
-testLogin('unexist username','lyuboxin1@gmail','','your email is not exist')
-testLogin('successful log in','lyuboxin@gmail','123456','success')
+testLogin('unexist username','lyuboxin1@gmail','','username or password is wrong')
 
 
 
