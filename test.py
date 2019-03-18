@@ -17,8 +17,10 @@ def output(x):
 def resultMsg(x):
     if x == True:
         print 'PASS'
+        assert(x)
     else:
         print '[X] not pass'
+        assert(x)
     print '---------------------'
 
 def testLogin(desc, username, password, result):
