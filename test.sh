@@ -6,3 +6,4 @@ echo $PATH
 ls driver
 
 python test.py
+python test_addroom.py
