@@ -28,7 +28,7 @@ def testLogin(desc, housename, street, city, province, postalcode, beds, price, 
 def checkresult(x):
     resultMsg(browser.is_text_present(x))
 
-__testUrl = 'http://ubuntu1604-006.student.cs.uwaterloo.ca:19488/addroom.html'
+__testUrl = 'http://ubuntu1604-006.student.cs.uwaterloo.ca:19487/addroom.html'
 
 browser = Browser('chrome', headless=True)
 browser.visit(__testUrl)
@@ -44,7 +44,7 @@ testLogin('no province', 'preston house', '315 king street North', 'Waterloo', '
 testLogin('no postal code', 'preston house', '315 king street North', 'Waterloo', 'ON', '','2', '100', 'please enter your postal code')
 testLogin('no beds', 'preston house', '315 king street North', 'Waterloo', 'ON', 'N2J2Z1','', '100', 'please enter your beds')
 testLogin('no price', 'preston house', '315 king street North', 'Waterloo', 'ON', 'N2J2Z1','2', '', 'please enter your price')
-testLogin('check price', 'preston house', '315 king street North', 'Waterloo', 'ON', 'N2J2Z1','-1', '100', 'please enter your correct number')
+testLogin('check beds', 'preston house', '315 king street North', 'Waterloo', 'ON', 'N2J2Z1','-1', '100', 'please enter your correct number')
 testLogin('check price', 'preston house', '315 king street North', 'Waterloo', 'ON', 'N2J2Z1','2', '-100', 'please enter your correct price')
 
 if CLOASE_AFTER_TEST:
