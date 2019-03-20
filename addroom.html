@@ -160,6 +160,7 @@
                     </label>
                     <div align="center">
                       <input type="text" class="form-control" id="name" name="name" />
+                      <span id = "reminder_housename"></span>
                     </div>
                   </div>
                   <div class="form-group">
@@ -173,6 +174,7 @@
                         id="street"
                         name="street"
                       />
+                      <span id = "reminder_street"></span>
                     </div>
                   </div>
                   <div class="form-group" align="center">
@@ -180,6 +182,7 @@
                       City
                     </label>
                     <input type="text" class="form-control" id="city" name="city" />
+                    <span id = "reminder_city"></span>
                     <span id="checktext2" class="warning"></span>
                   </div>
                   <div class="form-group">
@@ -195,6 +198,7 @@
                       list="Provinces_list"
                       onchange="remap()"
                     />
+                    <span id = "reminder_province"></span>
                     </div>
                     <datalist id="Provinces_list">
                       <option>NL</option>
@@ -218,6 +222,7 @@
                     </label>
                     <div align="center">
                     <input type="text" class="form-control" id="code" name="code" />
+                    <span id = "reminder_code"></span>
                     </div>
                   </div>
                   <div class="form-group" align="center">
@@ -225,23 +230,42 @@
                       Number of bed
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       id="beds"
+                      name= "beds"
                       placeholder="1"
                     />
+                    <span id = "reminder_beds"></span>
+                    <span id = "reminder_beds_num"></span>
                   </div>
+                  <div class="form-group" align="center">
+                      <label for="exampleInputPassword1">
+                        Price
+                      </label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        name = "price"
+                        placeholder="100"
+                      />
+                      <span id = "reminder_price"></span>
+                      <span id = "reminder_price_value"></span>
+                    </div>
                   <div class="form-group" align="center">
                     <label for="exampleInputPassword1">
                       Check in
                     </label>
-                    <input type="date" class="form-control" id="date_start" />
+                    <input type="date" class="form-control" id="date_start" name = "date_start" />
+                    <span id = "reminder_checkin"></span>
                   </div>
                   <div class="form-group" align="center">
                     <label for="exampleInputPassword1">
                       Check out
                     </label>
-                    <input type="date" class="form-control" id="date_end" />
+                    <input type="date" class="form-control" id="date_end" name = "date_end" />
+                    <span id = "reminder_checkout"></span>
                   </div>
                   <div class="form-group" align="center"> 
                     <label for="exampleInputEmail1">
@@ -253,6 +277,7 @@
                       placeholder="Add some details about the room for your guest." 
                       class="comments"
                       id = "des"
+                      name = "des"
                       autofocus>
                     </textarea>
                   </div>
@@ -265,7 +290,7 @@
                   
              
                   <div class="form-group marginCreat" align="center" > 
-                    <button type="submit" class="btn btn-primary" >
+                    <button type="submit" class="btn btn-primary" id = "create" value="create">
                       Create your room
                     </button>
                   </div>
@@ -281,6 +306,14 @@
       var lat;
       var lng;
       var placeid;
+      var now = new Date();
+      var day = ("0" + now.getDate()).slice(-2);
+      var month = ("0" + (now.getMonth() + 1)).slice(-2);
+      var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+      $('#date_start').val(today);
+      var next_month = ("0" + (now.getMonth() + 2)).slice(-2);
+      var end_date = now.getFullYear()+"-"+(next_month)+"-"+(day);
+      $('#date_end').val(end_date);
       function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
           center: { lat: -34.397, lng: 150.644 },
@@ -316,20 +349,78 @@
       }
 
 
-
+      var flag = 0;
       var form_login = document.getElementById("add-form");
       form_login.onsubmit = function(e) {
         e.preventDefault();
         var housename = document.getElementById("name").value;
+        if (housename == "") {
+      document.getElementById("reminder_housename").innerHTML =
+        "please enter your house name";
+        flag = 1;
+    }
         var streetname = document.getElementById("street").value;
+        if (streetname == "") {
+      document.getElementById("reminder_street").innerHTML =
+        "please enter your street";
+        flag = 1;
+    }
         var cityname = document.getElementById("city").value;
+        if (cityname == "") {
+      document.getElementById("reminder_city").innerHTML =
+        "please enter your city";
+        flag = 1;
+    }
         var provincename = document.getElementById("Provinces").value;
+        if (provincename == "") {
+      document.getElementById("reminder_province").innerHTML =
+        "please enter your province";
+        flag = 1;
+    }
         var postalcode = document.getElementById("code").value;
+        if (postalcode == "") {
+      document.getElementById("reminder_code").innerHTML =
+        "please enter your postal code";
+         flag = 1;
+    }
         var bed_num = document.getElementById("beds").value;
+        if (bed_num == "") {
+      document.getElementById("reminder_beds").innerHTML =
+        "please enter your beds";
+        flag = 1;
+    }
+    if (bed_num < 0)
+    {
+      document.getElementById("reminder_beds_num").innerHTML = 
+        "please enter your correct number";
+    }
+        var price = document.getElementById("price").value;
+        if (price == "") {
+      document.getElementById("reminder_price").innerHTML =
+        "please enter your price";
+        flag = 1;
+    }
+        if (price < 0) {
+      document.getElementById("reminder_price_value").innerHTML =
+        "please enter your correct price";
+        flag = 1;
+    }
         var startdate = document.getElementById("date_start").value;
+        if (startdate == "") {
+      document.getElementById("reminder_checkin").innerHTML =
+        "please enter your check-in date";
+        flag = 1;
+    }
         var enddate = document.getElementById("date_end").value;
+        if (enddate == "") {
+      document.getElementById("reminder_checkout").innerHTML =
+        "please enter your check-out date";
+        flag = 1;
+    }
         var description = document.getElementById("des").value;
-        console.log(typeof(description));
+        if(flag == 0)
+        {
+
         $.ajax({
           type: "POST",
           url: "/api/house/create",
@@ -347,6 +438,7 @@
             longitude: lng,
             latitude: lat,
             number_of_beds: bed_num,
+            price: price,
             date_begin: startdate,
             date_end: enddate,
             description: description 
@@ -360,6 +452,8 @@
             alert("add failed, see dev tool");
           }
         });
+      }
+      flag = 0;
       };
 
 
