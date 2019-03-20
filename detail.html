@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      #map {
+        margin-top: 0%;
+        height: 100%;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <title>Detail</title>
+
+    <meta
+      name="description"
+      content="Source code generated using layoutit.com"
+    />
+    <meta name="author" content="LayoutIt!" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="carousel slide" id="carousel-862442">
+            <ol class="carousel-indicators">
+              <li data-slide-to="0" data-target="#carousel-862442"></li>
+              <li data-slide-to="1" data-target="#carousel-862442"></li>
+              <li
+                data-slide-to="2"
+                data-target="#carousel-862442"
+                class="active"
+              ></li>
+            </ol>
+            <div class="carousel-inner" id="imgDetail"></div>
+            <a
+              class="carousel-control-prev"
+              href="#carousel-862442"
+              data-slide="prev"
+              ><span class="carousel-control-prev-icon"></span>
+              <span class="sr-only">Previous</span></a
+            >
+            <a
+              class="carousel-control-next"
+              href="#carousel-862442"
+              data-slide="next"
+              ><span class="carousel-control-next-icon"></span>
+              <span class="sr-only">Next</span></a
+            >
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div id="map"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <ul id="show_information"></ul>
+          <button type="button" class="btn btn-success" style="float: right;">
+            Reserve
+          </button>
+        </div>
+        <div class="col-md-8">
+          <dl>
+            <dt>
+              Description
+            </dt>
+            <div id="description"></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <script>
+      var placeid;
+      window.onload = function() {
+        initMap();
+        var result;
+        var home_id = window.location.search;
+        if (home_id.indexOf("?") != -1) {
+          result = home_id.substr(home_id.indexOf("=") + 1);
+        }
+        $.ajax({
+          type: "GET",
+          url: "/api/house/download_photos",
+          data: {
+            house_id: result
+          },
+          success: function(msg) {
+            var pic_list = msg.info;
+            var pic_num = msg.number_of_photos;
+            var pic_info;
+            $.each(pic_list, function(index, n) {
+              var div = document.getElementById("imgDetail");
+              var div_sub = document.createElement("div");
+              if (index != pic_num - 1) {
+                div_sub.setAttribute("class", "carousel-item");
+              } else {
+                div_sub.setAttribute("class", "carousel-item active");
+              }
+              var img = document.createElement("img");
+              img.setAttribute("class", "d-block w-100");
+              img.setAttribute("style", "width:50%;height:500px");
+              img.src = pic_list[index];
+              div_sub.appendChild(img);
+              div.appendChild(div_sub);
+            });
+          }
+        });
+        $.ajax({
+          type: "GET",
+          url: "/api/house/info",
+          data: {
+            house_id: result
+          },
+          success: function(msg) {
+            var home_information = msg.info;
+            placeid = home_information.place_id;
+            AddMarker();
+            var div = document.getElementById("show_information");
+            var table = document.createElement("table");
+            table.setAttribute("class", "table");
+            var row_1 = document.createElement("tr");
+            row_1.setAttribute("class", "table-active");
+            var td_1_1 = document.createElement("td");
+            td_1_1.innerHTML = "House Name: ";
+            var td_1_2 = document.createElement("td");
+            td_1_2.innerHTML = home_information.name;
+            row_1.appendChild(td_1_1);
+            row_1.appendChild(td_1_2);
+            table.appendChild(row_1);
+            var row_2 = document.createElement("tr");
+            row_2.setAttribute("class", "table-success");
+            var td_2_1 = document.createElement("td");
+            td_2_1.innerHTML = "Address:";
+            var td_2_2 = document.createElement("td");
+            td_2_2.innerHTML =
+              home_information.address +
+              "," +
+              home_information.city +
+              "," +
+              home_information.province;
+            row_2.appendChild(td_2_1);
+            row_2.appendChild(td_2_2);
+            table.appendChild(row_2);
+            var row_3 = document.createElement("tr");
+            row_3.setAttribute("class", "table-warning");
+            var td_3_1 = document.createElement("td");
+            td_3_1.innerHTML = "Postal Code:";
+            var td_3_2 = document.createElement("td");
+            td_3_2.innerHTML = home_information.postcode;
+            row_3.appendChild(td_3_1);
+            row_3.appendChild(td_3_2);
+            table.appendChild(row_3);
+            var row_4 = document.createElement("tr");
+            row_4.setAttribute("class", "table-danger");
+            var td_4_1 = document.createElement("td");
+            td_4_1.innerHTML = "Beds:";
+            var td_4_2 = document.createElement("td");
+            td_4_2.innerHTML = home_information.number_of_beds;
+            row_4.appendChild(td_4_1);
+            row_4.appendChild(td_4_2);
+            table.appendChild(row_4);
+            div.append(table);
+            var row_des = document.createElement("tr");
+            var description_info = home_information.description;
+            row_des.innerHTML = description_info;
+            $("#description").append(row_des);
+          },
+          fail: function() {
+            console.log("load info fail");
+          }
+        });
+      };
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: -34.397, lng: 150.644 },
+          zoom: 15
+        });
+      }
+      function AddMarker() {
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
+        function geocodeAddress(geocoder, resultsMap) {
+          geocoder.geocode({ placeId: placeid }, function(results, status) {
+            if (status === "OK") {
+              resultsMap.setCenter(results[0].geometry.location);
+              var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+              });
+            } else {
+              alert(
+                "Geocode was not successful for the following reason: " + status
+              );
+            }
+          });
+        }
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEr7VaXJrWbi79GbHar7CPAS1LyYDAyew&callback=initMap"
+      async
+      defer
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
