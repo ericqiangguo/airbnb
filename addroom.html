@@ -252,6 +252,7 @@
                       cols="50" 
                       placeholder="Add some details about the room for your guest." 
                       class="comments"
+                      id = "des"
                       autofocus>
                     </textarea>
                   </div>
@@ -327,6 +328,8 @@
         var bed_num = document.getElementById("beds").value;
         var startdate = document.getElementById("date_start").value;
         var enddate = document.getElementById("date_end").value;
+        var description = document.getElementById("des").value;
+        console.log(typeof(description));
         $.ajax({
           type: "POST",
           url: "/api/house/create",
@@ -345,7 +348,8 @@
             latitude: lat,
             number_of_beds: bed_num,
             date_begin: startdate,
-            date_end: enddate
+            date_end: enddate,
+            description: description 
           },
           success: function(msg) {
             console.log(msg);

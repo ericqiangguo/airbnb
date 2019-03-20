@@ -189,11 +189,11 @@
                 </label>
             
                <div align="center" class="htmleaf-container">
-                <form>
+                
                   <p>
-                    <input class="inputColor" type="number" value="1" data-decimals="1" min="0" max="9" step="0.1" />
+                    <input class="inputColor" type="number" id = "Distance" value="1" data-decimals="1" min="0" max="9" step="0.1" />
                   </p>
-                </form> 
+                
                </div>
             </div>
 
@@ -266,8 +266,7 @@
         var begindate = document.getElementById("date_start").value;
         var enddate = document.getElementById("date_end").value;
         var bed_num = parseInt(document.getElementById("beds").value);
-        var distance = 20000000;
-
+        var distance = document.getElementById("Distance").value;
         $.ajax({
           type: "GET",
           url: "/api/house/search",
@@ -307,10 +306,13 @@
                 search_result[index].date_end +
                 "&nbsp&nbsp&nbsp" +
                 "</td>";
-              var home_id_search = room_information[index].house_id;
-              var detail_search = "<a href=\"detail.html?home_id="+home_id_search+"\">details</a>";
+              var home_id_search = search_result[index].house_id;
+              var detail_search = "<a href=\"detail_.html?home_id="+home_id_search+"\">details</a>";  
+
+
               rowTr.innerHTML = information+detail_search;
               $(".show").append(rowTr);
+              console.log(search_result[index].place_id);
               var geocoder = new google.maps.Geocoder();
               geocodeAddress(geocoder, map);
               function geocodeAddress(geocoder, resultsMap) {
@@ -371,7 +373,7 @@
                 "&nbsp&nbsp&nbsp" +
                 "</td>";
               var home_id = room_information[index].house_id;
-              var detail = "<a href=\"detail.html?home_id="+home_id+"\">details</a>";
+              var detail = "<a href=\"detail_.html?home_id="+home_id+"\">details</a>";
               rowTr.innerHTML = information+detail;
               $(".show").append(rowTr);
             });
